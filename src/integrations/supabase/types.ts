@@ -14,7 +14,235 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      assessments: {
+        Row: {
+          anxiety_score: number | null
+          created_at: string
+          depression_score: number | null
+          id: string
+          notes: string | null
+          stress_score: number | null
+          user_id: string
+        }
+        Insert: {
+          anxiety_score?: number | null
+          created_at?: string
+          depression_score?: number | null
+          id?: string
+          notes?: string | null
+          stress_score?: number | null
+          user_id: string
+        }
+        Update: {
+          anxiety_score?: number | null
+          created_at?: string
+          depression_score?: number | null
+          id?: string
+          notes?: string | null
+          stress_score?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      chat_messages: {
+        Row: {
+          created_at: string
+          id: string
+          is_ai: boolean | null
+          message: string
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_ai?: boolean | null
+          message: string
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_ai?: boolean | null
+          message?: string
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "chat_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_sessions: {
+        Row: {
+          completed: boolean | null
+          created_at: string
+          id: string
+          title: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean | null
+          created_at?: string
+          id?: string
+          title?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean | null
+          created_at?: string
+          id?: string
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      community_comments: {
+        Row: {
+          anonymous: boolean | null
+          content: string
+          created_at: string
+          id: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          anonymous?: boolean | null
+          content: string
+          created_at?: string
+          id?: string
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          anonymous?: boolean | null
+          content?: string
+          created_at?: string
+          id?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "community_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      community_posts: {
+        Row: {
+          anonymous: boolean | null
+          category: string | null
+          content: string
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          anonymous?: boolean | null
+          category?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          anonymous?: boolean | null
+          category?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      mental_health_journeys: {
+        Row: {
+          completed_sessions: number | null
+          created_at: string
+          current_stage: string | null
+          id: string
+          journey_name: string
+          progress_percentage: number | null
+          unlocked_features: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_sessions?: number | null
+          created_at?: string
+          current_stage?: string | null
+          id?: string
+          journey_name: string
+          progress_percentage?: number | null
+          unlocked_features?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_sessions?: number | null
+          created_at?: string
+          current_stage?: string | null
+          id?: string
+          journey_name?: string
+          progress_percentage?: number | null
+          unlocked_features?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
