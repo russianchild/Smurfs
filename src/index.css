@@ -2,39 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Therapeutic Mental Health Design System - All colors MUST be HSL */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Calming therapeutic background */
+    --background: 220 15% 97%;
+    --foreground: 215 25% 20%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Soft card surfaces */
+    --card: 220 20% 99%;
+    --card-foreground: 215 25% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Clean popovers */
+    --popover: 220 20% 99%;
+    --popover-foreground: 215 25% 20%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Therapeutic primary - calming blue */
+    --primary: 210 70% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 210 85% 65%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Soft secondary - warm blue-gray */
+    --secondary: 215 25% 92%;
+    --secondary-foreground: 215 25% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Gentle muted tones */
+    --muted: 215 20% 94%;
+    --muted-foreground: 215 15% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Healing accent - soft green */
+    --accent: 150 60% 88%;
+    --accent-foreground: 150 40% 25%;
+    --healing: 150 55% 65%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Gentle warnings */
+    --destructive: 0 60% 65%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Soft borders */
+    --border: 215 20% 88%;
+    --input: 215 20% 90%;
+    --ring: 210 70% 55%;
+
+    /* Therapeutic gradients */
+    --gradient-therapeutic: linear-gradient(135deg, hsl(210 70% 55%) 0%, hsl(190 65% 60%) 100%);
+    --gradient-healing: linear-gradient(135deg, hsl(150 55% 65%) 0%, hsl(170 50% 70%) 100%);
+    --gradient-calm: linear-gradient(180deg, hsl(220 15% 97%) 0%, hsl(210 20% 94%) 100%);
+    --gradient-community: linear-gradient(135deg, hsl(260 60% 75%) 0%, hsl(210 70% 55%) 100%);
+
+    /* Wellness shadows */
+    --shadow-therapeutic: 0 4px 20px -2px hsl(210 70% 55% / 0.15);
+    --shadow-gentle: 0 2px 15px -3px hsl(215 25% 20% / 0.08);
+    --shadow-elevated: 0 10px 40px -10px hsl(210 70% 55% / 0.25);
+
+    /* Smooth animations */
+    --transition-gentle: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --radius: 0.5rem;
 
