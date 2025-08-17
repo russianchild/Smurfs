@@ -1,20 +1,36 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Heart, MessageCircle, Users, BarChart3, Menu, X } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useAuth } from "@/hooks/useAuth";
+import { 
+  Heart, 
+  MessageCircle, 
+  Users, 
+  BarChart3, 
+  Menu, 
+  X, 
+  LayoutDashboard,
+  Map,
+  LogOut
+} from "lucide-react";
+import { User } from "@supabase/supabase-js";
 
 interface NavigationProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
+  user: User;
 }
 
-const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
+const Navigation = ({ activeTab, onTabChange, user }: NavigationProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { signOut } = useAuth();
 
   const navigationItems = [
-    { id: "home", label: "Home", icon: Heart },
+    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "chat", label: "AI Therapist", icon: MessageCircle },
     { id: "assessment", label: "Assessment", icon: BarChart3 },
     { id: "community", label: "Community", icon: Users },
+    { id: "journey", label: "Journey", icon: Map },
   ];
 
   return (
@@ -48,19 +64,43 @@ const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
             })}
           </nav>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="sm"
-            className="md:hidden"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
-            )}
-          </Button>
+          {/* User Profile & Actions */}
+          <div className="flex items-center space-x-4">
+            <div className="hidden md:flex items-center space-x-2">
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className="bg-gradient-therapeutic text-white text-sm">
+                  {user.email?.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <span className="text-sm font-medium text-muted-foreground">
+                {user.email}
+              </span>
+            </div>
+            
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={signOut}
+              className="hidden md:flex items-center space-x-2 hover:bg-destructive/10 hover:text-destructive"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Sign Out</span>
+            </Button>
+
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="md:hidden"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
+            </Button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
@@ -83,6 +123,28 @@ const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
                 </Button>
               );
             })}
+            
+            {/* Mobile User Info & Sign Out */}
+            <div className="pt-4 border-t border-border">
+              <div className="flex items-center space-x-2 px-3 py-2">
+                <Avatar className="h-8 w-8">
+                  <AvatarFallback className="bg-gradient-therapeutic text-white text-sm">
+                    {user.email?.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text-sm font-medium text-muted-foreground">
+                  {user.email}
+                </span>
+              </div>
+              <Button
+                variant="ghost"
+                onClick={signOut}
+                className="w-full justify-start space-x-2 text-destructive hover:bg-destructive/10"
+              >
+                <LogOut className="w-4 h-4" />
+                <span>Sign Out</span>
+              </Button>
+            </div>
           </nav>
         )}
       </div>
