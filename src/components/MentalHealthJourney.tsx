@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { 
@@ -18,8 +19,15 @@ import {
   Heart,
   Brain,
   Users,
-  Award
+  Award,
+  BarChart3,
+  Target,
+  TrendingUp,
+  Calendar
 } from "lucide-react";
+import MoodTracker from "./MoodTracker";
+import MoodAnalytics from "./MoodAnalytics";
+import WellnessGoals from "./WellnessGoals";
 
 interface Journey {
   id: string;
@@ -163,160 +171,223 @@ const MentalHealthJourney = () => {
             Your Mental Health Journey
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Track your progress through different stages of mental wellness and unlock new features along the way
+            Comprehensive mental wellness tracking with mood analytics, goal setting, and progress insights
           </p>
         </div>
 
-        {/* Current Progress */}
-        <Card className="mb-12 border-0 shadow-therapeutic">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <MapPin className="h-6 w-6 text-primary" />
-              <span>Current Progress</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-primary mb-2">
-                  {journey?.progress_percentage || 0}%
-                </div>
-                <p className="text-sm text-muted-foreground">Overall Progress</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-healing mb-2">
-                  {journey?.completed_sessions || 0}
-                </div>
-                <p className="text-sm text-muted-foreground">Sessions Completed</p>
-              </div>
-              <div className="text-center">
-                <Badge className={stages[getCurrentStageIndex()].color}>
-                  {stages[getCurrentStageIndex()].title}
-                </Badge>
-                <p className="text-sm text-muted-foreground mt-2">Current Stage</p>
-              </div>
-            </div>
-            <Progress value={journey?.progress_percentage || 0} className="h-3" />
-          </CardContent>
-        </Card>
+        {/* Enhanced Journey with Tabs */}
+        <Tabs defaultValue="overview" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="overview" className="flex items-center space-x-2">
+              <Map className="w-4 h-4" />
+              <span className="hidden sm:inline">Overview</span>
+            </TabsTrigger>
+            <TabsTrigger value="mood" className="flex items-center space-x-2">
+              <Heart className="w-4 h-4" />
+              <span className="hidden sm:inline">Mood Tracker</span>
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex items-center space-x-2">
+              <BarChart3 className="w-4 h-4" />
+              <span className="hidden sm:inline">Analytics</span>
+            </TabsTrigger>
+            <TabsTrigger value="goals" className="flex items-center space-x-2">
+              <Target className="w-4 h-4" />
+              <span className="hidden sm:inline">Goals</span>
+            </TabsTrigger>
+            <TabsTrigger value="insights" className="flex items-center space-x-2">
+              <TrendingUp className="w-4 h-4" />
+              <span className="hidden sm:inline">Insights</span>
+            </TabsTrigger>
+          </TabsList>
 
-        {/* Journey Stages */}
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-8 text-center">Journey Stages</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {stages.map((stage, index) => {
-              const Icon = stage.icon;
-              const status = getStageStatus(index);
-              
-              return (
-                <Card 
-                  key={stage.id}
-                  className={`border-0 transition-all duration-300 ${
-                    status === 'current' 
-                      ? 'shadow-therapeutic scale-105' 
-                      : status === 'completed'
-                      ? 'shadow-gentle'
-                      : 'opacity-75'
-                  }`}
-                >
-                  <CardHeader className={`${stage.bgColor} rounded-t-lg`}>
-                    <div className="flex items-center justify-between">
-                      <Icon className="h-8 w-8 text-primary" />
-                      {status === 'completed' && (
-                        <CheckCircle className="h-6 w-6 text-green-600" />
-                      )}
-                      {status === 'locked' && (
-                        <Lock className="h-6 w-6 text-gray-400" />
-                      )}
-                      {status === 'current' && (
-                        <ArrowRight className="h-6 w-6 text-primary animate-pulse" />
-                      )}
+          <TabsContent value="overview" className="space-y-6">
+            {/* Current Progress */}
+            <Card className="border-0 shadow-therapeutic">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <MapPin className="h-6 w-6 text-primary" />
+                  <span>Current Progress</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-primary mb-2">
+                      {journey?.progress_percentage || 0}%
                     </div>
-                    <CardTitle className="text-lg">{stage.title}</CardTitle>
-                    <CardDescription className="text-sm">
-                      {stage.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="p-4">
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-xs font-medium text-muted-foreground mb-1">
-                          Requirements:
-                        </p>
-                        <p className="text-xs">{stage.requirements}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-medium text-muted-foreground mb-1">
-                          Unlocks:
-                        </p>
-                        <div className="space-y-1">
-                          {stage.unlocks.map((unlock, i) => (
-                            <Badge key={i} variant="secondary" className="text-xs mr-1">
-                              {unlock}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Milestones */}
-        <Card className="border-0 shadow-gentle">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Award className="h-6 w-6 text-primary" />
-              <span>Milestones</span>
-            </CardTitle>
-            <CardDescription>
-              Track your key achievements along the journey
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {milestones.map((milestone, index) => {
-                const Icon = milestone.icon;
-                return (
-                  <div 
-                    key={index}
-                    className={`flex items-center space-x-4 p-4 rounded-lg border transition-all ${
-                      milestone.completed 
-                        ? 'bg-green-50 border-green-200' 
-                        : 'bg-gray-50 border-gray-200'
-                    }`}
-                  >
-                    <div className={`p-3 rounded-full ${
-                      milestone.completed 
-                        ? 'bg-green-100 text-green-600' 
-                        : 'bg-gray-100 text-gray-400'
-                    }`}>
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className={`font-medium ${
-                        milestone.completed ? 'text-green-800' : 'text-gray-600'
-                      }`}>
-                        {milestone.title}
-                      </h3>
-                      <p className={`text-sm ${
-                        milestone.completed ? 'text-green-600' : 'text-gray-500'
-                      }`}>
-                        {milestone.description}
-                      </p>
-                    </div>
-                    {milestone.completed && (
-                      <CheckCircle className="h-6 w-6 text-green-600" />
-                    )}
+                    <p className="text-sm text-muted-foreground">Overall Progress</p>
                   </div>
-                );
-              })}
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-healing mb-2">
+                      {journey?.completed_sessions || 0}
+                    </div>
+                    <p className="text-sm text-muted-foreground">Sessions Completed</p>
+                  </div>
+                  <div className="text-center">
+                    <Badge className={stages[getCurrentStageIndex()].color}>
+                      {stages[getCurrentStageIndex()].title}
+                    </Badge>
+                    <p className="text-sm text-muted-foreground mt-2">Current Stage</p>
+                  </div>
+                </div>
+                <Progress value={journey?.progress_percentage || 0} className="h-3" />
+              </CardContent>
+            </Card>
+
+            {/* Journey Stages */}
+            <div>
+              <h2 className="text-2xl font-bold mb-8 text-center">Journey Stages</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {stages.map((stage, index) => {
+                  const Icon = stage.icon;
+                  const status = getStageStatus(index);
+                  
+                  return (
+                    <Card 
+                      key={stage.id}
+                      className={`border-0 transition-all duration-300 ${
+                        status === 'current' 
+                          ? 'shadow-therapeutic scale-105' 
+                          : status === 'completed'
+                          ? 'shadow-gentle'
+                          : 'opacity-75'
+                      }`}
+                    >
+                      <CardHeader className={`${stage.bgColor} rounded-t-lg`}>
+                        <div className="flex items-center justify-between">
+                          <Icon className="h-8 w-8 text-primary" />
+                          {status === 'completed' && (
+                            <CheckCircle className="h-6 w-6 text-green-600" />
+                          )}
+                          {status === 'locked' && (
+                            <Lock className="h-6 w-6 text-gray-400" />
+                          )}
+                          {status === 'current' && (
+                            <ArrowRight className="h-6 w-6 text-primary animate-pulse" />
+                          )}
+                        </div>
+                        <CardTitle className="text-lg">{stage.title}</CardTitle>
+                        <CardDescription className="text-sm">
+                          {stage.description}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="p-4">
+                        <div className="space-y-3">
+                          <div>
+                            <p className="text-xs font-medium text-muted-foreground mb-1">
+                              Requirements:
+                            </p>
+                            <p className="text-xs">{stage.requirements}</p>
+                          </div>
+                          <div>
+                            <p className="text-xs font-medium text-muted-foreground mb-1">
+                              Unlocks:
+                            </p>
+                            <div className="space-y-1">
+                              {stage.unlocks.map((unlock, i) => (
+                                <Badge key={i} variant="secondary" className="text-xs mr-1">
+                                  {unlock}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
             </div>
-          </CardContent>
-        </Card>
+
+            {/* Milestones */}
+            <Card className="border-0 shadow-gentle">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Award className="h-6 w-6 text-primary" />
+                  <span>Milestones</span>
+                </CardTitle>
+                <CardDescription>
+                  Track your key achievements along the journey
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {milestones.map((milestone, index) => {
+                    const Icon = milestone.icon;
+                    return (
+                      <div 
+                        key={index}
+                        className={`flex items-center space-x-4 p-4 rounded-lg border transition-all ${
+                          milestone.completed 
+                            ? 'bg-green-50 border-green-200' 
+                            : 'bg-gray-50 border-gray-200'
+                        }`}
+                      >
+                        <div className={`p-3 rounded-full ${
+                          milestone.completed 
+                            ? 'bg-green-100 text-green-600' 
+                            : 'bg-gray-100 text-gray-400'
+                        }`}>
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className={`font-medium ${
+                            milestone.completed ? 'text-green-800' : 'text-gray-600'
+                          }`}>
+                            {milestone.title}
+                          </h3>
+                          <p className={`text-sm ${
+                            milestone.completed ? 'text-green-600' : 'text-gray-500'
+                          }`}>
+                            {milestone.description}
+                          </p>
+                        </div>
+                        {milestone.completed && (
+                          <CheckCircle className="h-6 w-6 text-green-600" />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="mood">
+            <MoodTracker />
+          </TabsContent>
+
+          <TabsContent value="analytics">
+            <MoodAnalytics />
+          </TabsContent>
+
+          <TabsContent value="goals">
+            <WellnessGoals />
+          </TabsContent>
+
+          <TabsContent value="insights" className="space-y-6">
+            <Card className="border-0 shadow-gentle">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <TrendingUp className="h-6 w-6 text-primary" />
+                  <span>Personal Insights</span>
+                </CardTitle>
+                <CardDescription>
+                  AI-powered insights based on your mental health data
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-12">
+                  <Brain className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="text-lg font-semibold mb-2">Coming Soon</h3>
+                  <p className="text-muted-foreground">
+                    Personalized insights and recommendations based on your mood tracking and journey progress.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
