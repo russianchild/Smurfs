@@ -1,4 +1,14 @@
-# Welcome to your Lovable project
+# MindCare - Mental Health & Wellness Platform
+
+A comprehensive mental health platform featuring AI therapy chat, daily mood journaling, community support, and personalized wellness journeys.
+
+## Features
+
+- **Daily Journal**: Track your mood, energy, stress, and anxiety levels with interactive sliders
+- **AI Therapist**: Get personalized mental health support through AI-powered conversations  
+- **Community**: Connect with others on similar wellness journeys
+- **Mental Health Journey**: Personalized progress tracking and goal setting
+- **Dashboard**: Overview of your mental health metrics and progress
 
 ## Project info
 

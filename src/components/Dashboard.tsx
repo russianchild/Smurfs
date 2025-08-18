@@ -7,7 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { 
   MessageCircle, 
-  BarChart3, 
+  BookOpen, 
   Users, 
   Map, 
   TrendingUp, 
@@ -32,17 +32,19 @@ interface Journey {
   created_at: string;
 }
 
-interface RecentAssessment {
-  depression_score: number;
-  anxiety_score: number;
-  stress_score: number;
-  created_at: string;
+interface RecentJournalEntry {
+  mood_score: number;
+  energy_level: number;
+  stress_level: number;
+  anxiety_level: number;
+  date: string;
+  notes: string | null;
 }
 
 const Dashboard = ({ activeTab, onTabChange }: DashboardProps) => {
   const { user } = useAuth();
   const [journey, setJourney] = useState<Journey | null>(null);
-  const [recentAssessment, setRecentAssessment] = useState<RecentAssessment | null>(null);
+  const [recentJournalEntry, setRecentJournalEntry] = useState<RecentJournalEntry | null>(null);
   const [completedSessions, setCompletedSessions] = useState(0);
 
   useEffect(() => {
@@ -65,17 +67,17 @@ const Dashboard = ({ activeTab, onTabChange }: DashboardProps) => {
       setJourney(journeyData);
     }
 
-    // Fetch recent assessment
-    const { data: assessmentData } = await supabase
-      .from('assessments')
+    // Fetch recent journal entry
+    const { data: journalData } = await supabase
+      .from('mood_entries')
       .select('*')
       .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
+      .order('date', { ascending: false })
       .limit(1)
       .maybeSingle();
 
-    if (assessmentData) {
-      setRecentAssessment(assessmentData);
+    if (journalData) {
+      setRecentJournalEntry(journalData);
     }
 
     // Fetch completed sessions count
@@ -100,10 +102,10 @@ const Dashboard = ({ activeTab, onTabChange }: DashboardProps) => {
       enabled: true
     },
     {
-      title: "Take Assessment",
-      description: "Check your mental health",
-      icon: BarChart3,
-      action: () => onTabChange("assessment"),
+      title: "Daily Journal",
+      description: "Record your daily mood",
+      icon: BookOpen,
+      action: () => onTabChange("journal"),
       gradient: "bg-gradient-healing",
       enabled: true
     },
@@ -308,48 +310,62 @@ const Dashboard = ({ activeTab, onTabChange }: DashboardProps) => {
               </CardContent>
             </Card>
 
-            {/* Recent Assessment */}
-            {recentAssessment && (
+            {/* Recent Journal Entry */}
+            {recentJournalEntry && (
               <Card className="border-0 shadow-gentle">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Heart className="h-5 w-5" />
-                    <span>Latest Assessment</span>
+                    <span>Latest Journal Entry</span>
                   </CardTitle>
                   <CardDescription>
                     <Clock className="h-4 w-4 inline mr-1" />
-                    {new Date(recentAssessment.created_at).toLocaleDateString()}
+                    {new Date(recentJournalEntry.date).toLocaleDateString()}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Depression</span>
-                      <span className={`text-sm font-medium ${getMoodColor(recentAssessment.depression_score)}`}>
-                        {recentAssessment.depression_score}/10
+                      <span className="text-sm">Mood</span>
+                      <span className={`text-sm font-medium ${getMoodColor(11 - recentJournalEntry.mood_score)}`}>
+                        {recentJournalEntry.mood_score}/10
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Anxiety</span>
-                      <span className={`text-sm font-medium ${getMoodColor(recentAssessment.anxiety_score)}`}>
-                        {recentAssessment.anxiety_score}/10
+                      <span className="text-sm">Energy</span>
+                      <span className={`text-sm font-medium ${getMoodColor(11 - recentJournalEntry.energy_level)}`}>
+                        {recentJournalEntry.energy_level}/10
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm">Stress</span>
-                      <span className={`text-sm font-medium ${getMoodColor(recentAssessment.stress_score)}`}>
-                        {recentAssessment.stress_score}/10
+                      <span className={`text-sm font-medium ${getMoodColor(recentJournalEntry.stress_level)}`}>
+                        {recentJournalEntry.stress_level}/10
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Anxiety</span>
+                      <span className={`text-sm font-medium ${getMoodColor(recentJournalEntry.anxiety_level)}`}>
+                        {recentJournalEntry.anxiety_level}/10
                       </span>
                     </div>
                   </div>
+                  
+                  {recentJournalEntry.notes && (
+                    <div className="pt-2 border-t">
+                      <p className="text-xs text-muted-foreground line-clamp-2">
+                        {recentJournalEntry.notes}
+                      </p>
+                    </div>
+                  )}
                   
                   <Button 
                     variant="outline" 
                     size="sm" 
                     className="w-full"
-                    onClick={() => onTabChange("assessment")}
+                    onClick={() => onTabChange("journal")}
                   >
-                    Take New Assessment
+                    Add Journal Entry
                   </Button>
                 </CardContent>
               </Card>

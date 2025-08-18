@@ -6,7 +6,7 @@ import {
   Heart, 
   MessageCircle, 
   Users, 
-  BarChart3, 
+  BookOpen, 
   Menu, 
   X, 
   LayoutDashboard,
@@ -28,7 +28,7 @@ const Navigation = ({ activeTab, onTabChange, user }: NavigationProps) => {
   const navigationItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "chat", label: "AI Therapist", icon: MessageCircle },
-    { id: "assessment", label: "Assessment", icon: BarChart3 },
+    { id: "journal", label: "Journal", icon: BookOpen },
     { id: "community", label: "Community", icon: Users },
     { id: "journey", label: "Journey", icon: Map },
   ];

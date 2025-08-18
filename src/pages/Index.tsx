@@ -4,7 +4,7 @@ import AuthPage from "@/components/AuthPage";
 import Navigation from "@/components/Navigation";
 import Dashboard from "@/components/Dashboard";
 import AITherapistChat from "@/components/AITherapistChat";
-import MentalHealthAssessment from "@/components/MentalHealthAssessment";
+import DailyJournal from "@/components/DailyJournal";
 import Community from "@/components/Community";
 import MentalHealthJourney from "@/components/MentalHealthJourney";
 
@@ -33,8 +33,8 @@ const Index = () => {
     switch (activeTab) {
       case "chat":
         return <AITherapistChat />;
-      case "assessment":
-        return <MentalHealthAssessment />;
+      case "journal":
+        return <DailyJournal />;
       case "community":
         return <Community />;
       case "journey":
