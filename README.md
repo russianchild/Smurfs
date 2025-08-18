@@ -10,6 +10,16 @@ A comprehensive mental health platform featuring AI therapy chat, daily mood jou
 - **Mental Health Journey**: Personalized progress tracking and goal setting
 - **Dashboard**: Overview of your mental health metrics and progress
 
+## Tech Stack
+
+- **Frontend**: React 18 with TypeScript
+- **Styling**: Tailwind CSS with custom therapeutic design system
+- **UI Components**: shadcn/ui with Radix UI primitives
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **Build Tool**: Vite
+- **State Management**: React Query (TanStack Query)
+
 ## Project info
 
 **URL**: https://lovable.dev/projects/221b4dac-27e0-4f0a-8e64-1241f46e855b
