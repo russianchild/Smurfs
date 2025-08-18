@@ -67,7 +67,7 @@ const MoodAnalytics = () => {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - daysBack);
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('mood_entries')
       .select('*')
       .eq('user_id', user.id)

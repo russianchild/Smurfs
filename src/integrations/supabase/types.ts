@@ -210,6 +210,72 @@ export type Database = {
         }
         Relationships: []
       }
+      mood_entries: {
+        Row: {
+          anxiety_level: number
+          created_at: string
+          date: string
+          energy_level: number
+          id: string
+          mood_score: number
+          notes: string | null
+          stress_level: number
+          user_id: string
+        }
+        Insert: {
+          anxiety_level: number
+          created_at?: string
+          date?: string
+          energy_level: number
+          id?: string
+          mood_score: number
+          notes?: string | null
+          stress_level: number
+          user_id: string
+        }
+        Update: {
+          anxiety_level?: number
+          created_at?: string
+          date?: string
+          energy_level?: number
+          id?: string
+          mood_score?: number
+          notes?: string | null
+          stress_level?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      moods: {
+        Row: {
+          created_at: string
+          id: string
+          intensity: number
+          mood_type: string
+          notes: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          intensity: number
+          mood_type: string
+          notes?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          intensity?: number
+          mood_type?: string
+          notes?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -240,6 +306,51 @@ export type Database = {
           updated_at?: string
           user_id?: string
           username?: string | null
+        }
+        Relationships: []
+      }
+      wellness_goals: {
+        Row: {
+          category: string
+          created_at: string
+          current_value: number
+          deadline: string | null
+          description: string | null
+          id: string
+          status: string
+          target_value: number
+          title: string
+          unit: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          current_value?: number
+          deadline?: string | null
+          description?: string | null
+          id?: string
+          status?: string
+          target_value?: number
+          title: string
+          unit?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          current_value?: number
+          deadline?: string | null
+          description?: string | null
+          id?: string
+          status?: string
+          target_value?: number
+          title?: string
+          unit?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }

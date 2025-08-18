@@ -73,7 +73,7 @@ const WellnessGoals = () => {
   const fetchGoals = async () => {
     if (!user) return;
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('wellness_goals')
       .select('*')
       .eq('user_id', user.id)
@@ -82,7 +82,7 @@ const WellnessGoals = () => {
     if (error) {
       console.error('Error fetching goals:', error);
     } else {
-      setGoals(data || []);
+      setGoals((data || []) as WellnessGoal[]);
     }
   };
 
@@ -90,7 +90,7 @@ const WellnessGoals = () => {
     if (!user || !formData.title.trim()) return;
 
     setLoading(true);
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from('wellness_goals')
       .insert([{
         user_id: user.id,
@@ -136,7 +136,7 @@ const WellnessGoals = () => {
     const updatedValue = Math.max(0, Math.min(newValue, goal.target_value));
     const newStatus = updatedValue >= goal.target_value ? 'completed' : 'active';
 
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from('wellness_goals')
       .update({ 
         current_value: updatedValue,
@@ -162,7 +162,7 @@ const WellnessGoals = () => {
   };
 
   const deleteGoal = async (goalId: string) => {
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from('wellness_goals')
       .delete()
       .eq('id', goalId);

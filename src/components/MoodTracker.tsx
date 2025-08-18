@@ -64,7 +64,7 @@ const MoodTracker = () => {
   const fetchMoodEntries = async () => {
     if (!user) return;
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('mood_entries')
       .select('*')
       .eq('user_id', user.id)
@@ -95,7 +95,7 @@ const MoodTracker = () => {
     };
 
     // Check if entry exists for this date
-    const { data: existingEntry } = await supabase
+    const { data: existingEntry } = await (supabase as any)
       .from('mood_entries')
       .select('id')
       .eq('user_id', user.id)
@@ -105,14 +105,14 @@ const MoodTracker = () => {
     let error;
     if (existingEntry) {
       // Update existing entry
-      const { error: updateError } = await supabase
+      const { error: updateError } = await (supabase as any)
         .from('mood_entries')
         .update(moodEntry)
         .eq('id', existingEntry.id);
       error = updateError;
     } else {
       // Insert new entry
-      const { error: insertError } = await supabase
+      const { error: insertError } = await (supabase as any)
         .from('mood_entries')
         .insert([moodEntry]);
       error = insertError;
