@@ -1,4 +1,4 @@
-# MindCare - Mental Health & Wellness Platform
+# heAl - Mental Health & Wellness Platform
 
 A comprehensive mental health platform featuring AI therapy chat, daily mood journaling, community support, and personalized wellness journeys.
 

@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/hooks/useAuth";
-import { Heart, Mail, Lock, User, AlertCircle } from "lucide-react";
+import { Mail, Lock, User, AlertCircle } from "lucide-react";
+import Logo from "./Logo";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 
@@ -66,11 +67,11 @@ const AuthPage = () => {
     <div className="min-h-screen bg-gradient-calm flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-gradient-therapeutic rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <Heart className="w-8 h-8 text-white" />
+          <div className="flex justify-center mb-4">
+            <Logo size="lg" />
           </div>
           <h1 className="text-3xl font-bold bg-gradient-therapeutic bg-clip-text text-transparent">
-            Welcome to MindCare
+            Welcome to heAl
           </h1>
           <p className="text-muted-foreground mt-2">
             Your mental health companion
