@@ -303,7 +303,7 @@ const DailyJournal = () => {
                     disabled={isSaving}
                     className="bg-gradient-therapeutic shadow-gentle hover:shadow-therapeutic transition-gentle"
                   >
-                    <Save className="w-4 h-4 mr-2" />
+                    <Save className={`w-4 h-4 mr-2 ${isSaving ? 'animate-spin' : ''}`} />
                     {isSaving ? "Saving..." : "Save Entry"}
                   </Button>
                 </div>
