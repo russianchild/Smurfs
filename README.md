@@ -2,6 +2,9 @@
 
 A comprehensive mental health platform featuring AI therapy chat, daily mood journaling, community support, and personalized wellness journeys.
 
+> **Repository**: https://github.com/russianchild/Smurfs.git  
+> **Status**: Active Development ✅
+
 ## Features
 
 - **Daily Journal**: Track your mood, energy, stress, and anxiety levels with interactive sliders
